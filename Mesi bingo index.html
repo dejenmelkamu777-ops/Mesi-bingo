@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Mesi Bingo" />
+  <title>Mesi Bingo — የቢንጎ ማስተዳደሪያ App</title>
+  <link
+    id="dynamicManifest"
+    rel="manifest"
+    href="data:application/manifest+json,%7B%22name%22%3A%22Mesi%20Bingo%22%2C%22short_name%22%3A%22Mesi%20Bingo%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b1120%22%2C%22theme_color%22%3A%22%231d4ed8%22%7D"
+  />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1120;
+      margin: 0;
+      padding: 16px;
+      color: #0f172a;
+    }
+    .app-wrap {
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+    .auth-card {
+      max-width: 440px;
+      margin: 36px auto;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+      border-top: 8px solid #1d4ed8;
+    }
+    .auth-title {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: #0f172a;
+    }
+    .auth-sub {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.5;
+    }
+    .field-group {
+      margin-bottom: 14px;
+    }
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .text-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 15px;
+      color: #0f172a;
+      background: #ffffff;
+    }
+    .error-msg {
+      color: #dc2626;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      min-height: 18px;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    .account-bar {
+      background: #1e293b;
+      color: #f8fafc;
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .account-meta {
+      font-size: 14px;
+    }
+    .account-badge {
+      background: #1d4ed8;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+    .account-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .caller-panel {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+      border-top: 8px solid #1d4ed8;
+    }
+    .caller-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .caller-title {
+      margin: 0;
+      font-size: 22px;
+      color: #0f172a;
+    }
+    .counter-pill {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .caller-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .big-ball {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #2563eb, #1e3a8a);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.35);
+      flex-shrink: 0;
+    }
+    .big-ball .b-letter {
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      opacity: 0.92;
+    }
+    .big-ball .b-num {
+      font-size: 40px;
+      font-weight: bold;
+      line-height: 1.05;
+    }
+    .caller-info {
+      flex: 1;
+      min-width: 230px;
+    }
+    .last-call-label {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .last-call-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .recent-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+    .recent-chip {
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .recent-chip.latest {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .match-summary {
+      font-size: 13px;
+      color: #1e40af;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    button {
+      padding: 11px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #ffffff;
+      background: #2563eb;
+    }
+    button.green { background: #16a34a; }
+    button.slate { background: #475569; }
+    button.amber { background: #d97706; }
+    button.red { background: #dc2626; }
+    button.outline {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+    }
+    button.active-filter {
+      background: #16a34a;
+      color: #ffffff;
+      border-color: #15803d;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .called-matrix {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+    .matrix-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+    .matrix-col {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .matrix-col:last-child { margin-bottom: 0; }
+    .matrix-letter {
+      width: 24px;
+      font-weight: bold;
+      color: #1d4ed8;
+      font-size: 14px;
+    }
+    .m-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      background: #e2e8f0;
+      color: #94a3b8;
+    }
+    .m-num.hit {
+      background: #16a34a;
+      color: #ffffff;
+    }
+    .m-num.current-hit {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .logs-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .logs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .logs-list {
+      font-size: 13px;
+      color: #334155;
+      max-height: 110px;
+      overflow-y: auto;
+    }
+    .log-item {
+      padding: 5px 0;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .log-item:last-child { border-bottom: none; }
+
+    .cards-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      background: #1e293b;
+      padding: 14px;
+      border-radius: 14px;
+    }
+    .cards-section-title {
+      color: #f8fafc;
+      font-size: 17px;
+      margin: 0;
+    }
+    .toolbar-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .toolbar-label {
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .num-input {
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+      width: 100px;
+      background: #ffffff;
+      color: #0f172a;
+    }
+    .search-input {
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+      width: 145px;
+      background: #ffffff;
+      color: #0f172a;
+    }
+    .view-info {
+      color: #cbd5e1;
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 18px;
+    }
+    .bingo-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+      border-top: 6px solid #2563eb;
+    }
+    .bingo-card.has-current {
+      border-top-color: #16a34a;
+      box-shadow: 0 10px 24px rgba(22, 163, 74, 0.28);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .badge {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+    .badge.match-badge {
+      background: #dcfce7;
+      color: #15803d;
+      margin-left: 6px;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+    .b-head {
+      background: #0f172a;
+      color: #fff;
+      text-align: center;
+      padding: 8px 0;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .b-cell {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 11px 4px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .b-cell.current-num {
+      outline: 2px solid #2563eb;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+    .b-cell.marked {
+      background: #16a34a;
+      color: #fff;
+      border-color: #15803d;
+    }
+    .b-cell.free {
+      background: #fef08a;
+      color: #854d0e;
+      border-color: #eab308;
+      cursor: default;
+    }
+    .msg {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: bold;
+      min-height: 18px;
+      color: #15803d;
+    }
+    .empty-note {
+      color: #cbd5e1;
+      background: #1e293b;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <div class="auth-card" id="authSection">
+      <h2 class="auth-title" id="authTitle">የቢንጎ አካውንት መግቢያ</h2>
+      <p class="auth-sub" id="authSubtitle">
+        የራስዎን የቢንጎ ስርዓት በአካውንትዎ ለመጠቀም የአካውንት ስም እና ቢያንስ 4-አሃዝ PIN ያስገቡ።
+      </p>
+
+      <div class="field-group">
+        <label class="field-label" for="accNameInput">የአካውንት ስም (Account Name)</label>
+        <input
+          type="text"
+          id="accNameInput"
+          class="text-input"
+          placeholder="ለምሳሌ፦ Mesi bingo"
+        />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="accPinInput">PIN (ቢያንስ 4 አሃዝ)</label>
+        <input
+          type="text"
+          id="accPinInput"
+          class="text-input"
+          placeholder="ለምሳሌ፦ 1234"
+          inputmode="numeric"
+          maxlength="12"
+        />
+      </div>
+
+      <div class="error-msg" id="authError"></div>
+      <button style="width: 100%;" onclick="handleLogin()">ግባ / አካውንት አዘጋጅ</button>
+    </div>
+
+    <div id="mainApp" class="hidden">
+      <div class="account-bar">
+        <div class="account-meta">
+          አካውንት፦ <strong id="activeAccountLabel">-</strong>
+          <span class="account-badge">Mesi Bingo App</span>
+        </div>
+        <div class="account-actions">
+          <button class="outline" style="padding: 8px 12px; font-size: 13px;" onclick="exportBackup()">
+            ባክአፕ አውርድ (JSON)
+          </button>
+          <button class="outline" style="padding: 8px 12px; font-size: 13px;" onclick="triggerImport()">
+            ባክአፕ መልስ
+          </button>
+          <button class="red" style="padding: 8px 12px; font-size: 13px;" onclick="logoutAccount()">
+            ውጣ
+          </button>
+          <input
+            type="file"
+            id="importFileInput"
+            accept=".json,application/json"
+            class="hidden"
+            onchange="importBackup(event)"
+          />
+        </div>
+      </div>
+
+      <div class="caller-panel">
+        <div class="caller-top">
+          <h2 class="caller-title">ዋና ቁጥር ጠሪ (Bingo Caller)</h2>
+          <div class="counter-pill" id="countBadge">0 / 75 ተጠርቷል</div>
+        </div>
+
+        <div class="caller-main">
+          <div class="big-ball">
+            <div class="b-letter" id="callLetter">-</div>
+            <div class="b-num" id="callNum">--</div>
+          </div>
+          <div class="caller-info">
+            <div class="last-call-label">የአሁኑ ጥሪ</div>
+            <div class="last-call-value" id="currentCallText">ገና አልተጠራም</div>
+            <div class="recent-row" id="recentRow">
+              <span>የቅርብ ጥሪዎች፦</span>
+              <span>ምንም የለም</span>
+            </div>
+            <div class="match-summary" id="matchSummary">
+              የአሁኑን ጥሪ የያዙ ካርዶች፦ ገና ጥሪ አልተደረገም
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="drawBtn" onclick="drawNumber()">ቀጣይ ቁጥር ጥራ</button>
+          <button class="green" onclick="recordRound()">ጨዋታ መዝግብ</button>
+          <button class="amber" onclick="newRoundKeepCards()">አዲስ ዙር (ካርዶችን አቆይ)</button>
+          <button class="slate" onclick="regenerateAll()">አዲስ ካርዶች ፍጠር</button>
+          <button class="outline" id="soundBtn" onclick="toggleSound()">ድምጽ፦ በርቷል</button>
+        </div>
+
+        <div class="called-matrix">
+          <div class="matrix-title">የተጠሩ ቁጥሮች ሰሌዳ (B - I - N - G - O)</div>
+          <div id="matrixContainer"></div>
+        </div>
+
+        <div class="logs-box">
+          <div class="logs-header">
+            <strong style="font-size: 13px; color: #334155;">የተቀመጡ የጨዋታ መዝገቦች</strong>
+            <button class="outline" style="padding: 5px 10px; font-size: 12px;" onclick="clearLogs()">መዝገብ አጽዳ</button>
+          </div>
+          <div class="logs-list" id="logsList"></div>
+        </div>
+      </div>
+
+      <div class="cards-toolbar">
+        <h3 class="cards-section-title" id="cardsTitle">የጨዋታ ካርዶች (30)</h3>
+
+        <div class="toolbar-group">
+          <span class="toolbar-label">ጠቅላላ (1-15000):</span>
+          <input
+            type="number"
+            id="cardCountInput"
+            class="num-input"
+            min="1"
+            max="15000"
+            value="30"
+          />
+          <button onclick="applyCardCount()">ካርድ አዘምን</button>
+        </div>
+
+        <div class="toolbar-group">
+          <span class="toolbar-label">የሚታዩ:</span>
+          <input
+            type="number"
+            id="visibleLimitInput"
+            class="num-input"
+            min="1"
+            max="500"
+            value="60"
+            onchange="applyVisibleLimit()"
+          />
+          <input
+            type="text"
+            id="cardSearchInput"
+            class="search-input"
+            placeholder="ካርድ ቁጥር (101)"
+            oninput="resetLimitAndRender()"
+          />
+          <button class="outline" id="onlyMatchBtn" onclick="toggleOnlyMatching()">
+            የተጠራውን የያዙትን ብቻ
+          </button>
+          <button class="outline" onclick="clearFilters()">ሁሉንም አሳይ</button>
+        </div>
+      </div>
+
+      <div class="view-info" id="viewInfo"></div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    const ACCOUNT_KEY = 'mesi_bingo_account_v1';
+    const STATE_KEY = 'mesi_bingo_state_v2';
+    const MAX_CARDS = 15000;
+    const DEFAULT_VISIBLE = 60;
+
+    const colsMeta = [
+      { letter: 'B', min: 1, max: 15 },
+      { letter: 'I', min: 16, max: 30 },
+      { letter: 'N', min: 31, max: 45 },
+      { letter: 'G', min: 46, max: 60 },
+      { letter: 'O', min: 61, max: 75 }
+    ];
+
+    let account = null;
+    let pool = [];
+    let called = [];
+    let cards = [];
+    let cardCount = 30;
+    let visibleStep = DEFAULT_VISIBLE;
+    let displayLimit = DEFAULT_VISIBLE;
+    let soundEnabled = true;
+    let onlyMatching = false;
+    let gameLogs = [];
+
+    function setupPwaMeta() {
+      const svgIcon = encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#1d4ed8"/><text x="96" y="114" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#ffffff" text-anchor="middle">MB</text></svg>`
+      );
+      const iconHref = `data:image/svg+xml,${svgIcon}`;
+      const manifestObj = {
+        name: 'Mesi Bingo',
+        short_name: 'Mesi Bingo',
+        start_url: './index.html',
+        display: 'standalone',
+        background_color: '#0b1120',
+        theme_color: '#1d4ed8',
+        icons: [
+          {
+            src: iconHref,
+            sizes: '192x192',
+            type: 'image/svg+xml',
+            purpose: 'any'
+          }
+        ]
+      };
+      const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
+      const manifestUrl = URL.createObjectURL(manifestBlob);
+      const linkEl = document.getElementById('dynamicManifest');
+      if (linkEl) linkEl.setAttribute('href', manifestUrl);
+
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+      }
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function loadAccount() {
+      try {
+        const raw = localStorage.getItem(ACCOUNT_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveAccount() {
+      try {
+        localStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
+      } catch (e) {}
+    }
+
+    function syncAuthUI() {
+      account = loadAccount();
+      const authSec = document.getElementById('authSection');
+      const mainApp = document.getElementById('mainApp');
+      const titleEl = document.getElementById('authTitle');
+      const subEl = document.getElementById('authSubtitle');
+      const nameInput = document.getElementById('accNameInput');
+
+      if (account && account.loggedIn) {
+        authSec.classList.add('hidden');
+        mainApp.classList.remove('hidden');
+        document.getElementById('activeAccountLabel').textContent = account.name;
+        return true;
+      }
+
+      authSec.classList.remove('hidden');
+      mainApp.classList.add('hidden');
+
+      if (account && account.name) {
+        titleEl.textContent = 'እንኳን ደህና መጡ — ይግቡ';
+        subEl.textContent = `የተመዘገበ መለያ፦ "${account.name}"። ለመቀጠል PIN ያስገቡ።`;
+        nameInput.value = account.name;
+      } else {
+        titleEl.textContent = 'የቢንጎ አካውንት መፍጠር';
+        subEl.textContent =
+          'የራስዎን የቢንጎ ስርዓት በአካውንትዎ ለመጠቀም የአካውንት ስም እና ቢያንስ 4-አሃዝ PIN ያስገቡ።';
+      }
+      return false;
+    }
+
+    function handleLogin() {
+      const nameVal = document.getElementById('accNameInput').value.trim();
+      const rawPin = document.getElementById('accPinInput').value;
+      const pinVal = rawPin.replace(/\s+/g, '');
+      const errEl = document.getElementById('authError');
+
+      if (!nameVal) {
+        errEl.textContent = 'እባክዎ የአካውንት ስም ያስገቡ።';
+        return;
+      }
+      if (pinVal.length < 4) {
+        errEl.textContent = `PIN ቢያንስ 4 አሃዝ መሆን አለበት (አሁን የገባው፡ ${pinVal.length})።`;
+        return;
+      }
+
+      const existing = loadAccount();
+      if (existing && existing.pin) {
+        if (existing.pin !== pinVal) {
+          errEl.textContent = 'የገባው PIN ትክክል አይደለም።';
+          return;
+        }
+        account = { name: nameVal, pin: existing.pin, loggedIn: true };
+      } else {
+        account = { name: nameVal, pin: pinVal, loggedIn: true };
+      }
+
+      errEl.textContent = '';
+      document.getElementById('accPinInput').value = '';
+      saveAccount();
+      initAppAfterAuth();
+    }
+
+    function logoutAccount() {
+      if (!account) return;
+      account.loggedIn = false;
+      saveAccount();
+      syncAuthUI();
+    }
+
+    function saveState() {
+      try {
+        const payload = {
+          pool,
+          called,
+          cards,
+          cardCount,
+          visibleStep,
+          soundEnabled,
+          gameLogs
+        };
+        localStorage.setItem(STATE_KEY, JSON.stringify(payload));
+      } catch (e) {}
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STATE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!Array.isArray(data.cards) || data.cards.length === 0) return false;
+        pool = Array.isArray(data.pool) ? data.pool : [];
+        called = Array.isArray(data.called) ? data.called : [];
+        cards = data.cards;
+        cardCount = Math.min(MAX_CARDS, data.cardCount || cards.length);
+        visibleStep = Math.min(500, Math.max(1, data.visibleStep || DEFAULT_VISIBLE));
+        displayLimit = visibleStep;
+        soundEnabled = data.soundEnabled !== undefined ? data.soundEnabled : true;
+        gameLogs = Array.isArray(data.gameLogs) ? data.gameLogs : [];
+        document.getElementById('cardCountInput').value = cardCount;
+        document.getElementById('visibleLimitInput').value = visibleStep;
+        document.getElementById('soundBtn').textContent =
+          soundEnabled ? 'ድምጽ፦ በርቷል' : 'ድምጽ፦ ጠፍቷል';
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function exportBackup() {
+      const backupData = {
+        exportedAt: new Date().toISOString(),
+        accountName: account ? account.name : 'Account',
+        state: {
+          pool,
+          called,
+          cards,
+          cardCount,
+          visibleStep,
+          soundEnabled,
+          gameLogs
+        }
+      };
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mesi_bingo_backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function triggerImport() {
+      document.getElementById('importFileInput').click();
+    }
+
+    function importBackup(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          const st = parsed.state || parsed;
+          if (!Array.isArray(st.cards) || st.cards.length === 0) return;
+          pool = Array.isArray(st.pool) ? st.pool : [];
+          called = Array.isArray(st.called) ? st.called : [];
+          cards = st.cards;
+          cardCount = Math.min(MAX_CARDS, st.cardCount || cards.length);
+          visibleStep = Math.min(500, Math.max(1, st.visibleStep || DEFAULT_VISIBLE));
+          displayLimit = visibleStep;
+          soundEnabled = st.soundEnabled !== undefined ? st.soundEnabled : true;
+          gameLogs = Array.isArray(st.gameLogs) ? st.gameLogs : [];
+          document.getElementById('cardCountInput').value = cardCount;
+          document.getElementById('visibleLimitInput').value = visibleStep;
+          document.getElementById('soundBtn').textContent =
+            soundEnabled ? 'ድምጽ፦ በርቷል' : 'ድምጽ፦ ጠፍቷል';
+          saveState();
+          refreshAllUI();
+        } catch (err) {}
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function playChime() {
+      if (!soundEnabled) return;
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(660, ctx.currentTime);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.19);
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundBtn').textContent =
+        soundEnabled ? 'ድምጽ፦ በርቷል' : 'ድምጽ፦ ጠፍቷል';
+      saveState();
+    }
+
+    function getLatestNumber() {
+      return called.length ? called[called.length - 1] : null;
+    }
+
+    function cardHasNumber(card, num) {
+      if (num === null) return false;
+      for (let r = 0; r < 5; r++) {
+        for (let c = 0; c < 5; c++) {
+          if (card.grid[r][c] === num) return true;
+        }
+      }
+      return false;
+    }
+
+    function updateCallerDisplay() {
+      const latest = getLatestNumber();
+      if (latest === null) {
+        document.getElementById('callLetter').textContent = '-';
+        document.getElementById('callNum').textContent = '--';
+        document.getElementById('currentCallText').textContent = 'ገና አልተጠራም';
+      } else {
+        const meta = colsMeta.find(m => latest >= m.min && latest <= m.max);
+        document.getElementById('callLetter').textContent = meta.letter;
+        document.getElementById('callNum').textContent = latest;
+        document.getElementById('currentCallText').textContent = `${meta.letter} - ${latest}`;
+      }
+      document.getElementById('countBadge').textContent = `${called.length} / 75 ተጠርቷል`;
+      document.getElementById('drawBtn').disabled = pool.length === 0;
+    }
+
+    function updateMatchSummary() {
+      const latest = getLatestNumber();
+      const box = document.getElementById('matchSummary');
+      if (latest === null) {
+        box.textContent = 'የአሁኑን ጥሪ የያዙ ካርዶች፦ ገና ጥሪ አልተደረገም';
+        return;
+      }
+      const matchingIds = cards
+        .filter(card => cardHasNumber(card, latest))
+        .map(card => `#${card.id}`);
+
+      if (matchingIds.length === 0) {
+        box.textContent = `ቁጥር ${latest} የያዘ ካርድ በአሁኑ ዝርዝር የለም።`;
+      } else {
+        const preview = matchingIds.slice(0, 12).join(', ');
+        const extra = matchingIds.length > 12 ? ` (+${matchingIds.length - 12} ተጨማሪ)` : '';
+        box.textContent = `ቁጥር ${latest} የያዙ ካርዶች (${matchingIds.length})፦ ${preview}${extra}`;
+      }
+    }
+
+    function renderMatrix() {
+      const container = document.getElementById('matrixContainer');
+      container.innerHTML = '';
+      const latestNum = getLatestNumber();
+
+      colsMeta.forEach(m => {
+        const row = document.createElement('div');
+        row.className = 'matrix-col';
+
+        const lbl = document.createElement('div');
+        lbl.className = 'matrix-letter';
+        lbl.textContent = m.letter;
+        row.appendChild(lbl);
+
+        for (let n = m.min; n <= m.max; n++) {
+          const box = document.createElement('span');
+          box.className = 'm-num';
+          box.textContent = n;
+          if (n === latestNum) box.classList.add('current-hit');
+          else if (called.includes(n)) box.classList.add('hit');
+          row.appendChild(box);
+        }
+        container.appendChild(row);
+      });
+    }
+
+    function renderRecent() {
+      const wrap = document.getElementById('recentRow');
+      if (called.length === 0) {
+        wrap.innerHTML = '<span>የቅርብ ጥሪዎች፦</span><span>ምንም የለም</span>';
+        return;
+      }
+      const lastFive = called.slice(-5).reverse();
+      const chips = lastFive.map((num, idx) => {
+        const m = colsMeta.find(x => num >= x.min && num <= x.max);
+        const cls = idx === 0 ? 'recent-chip latest' : 'recent-chip';
+        return `<span class="${cls}">${m.letter}-${num}</span>`;
+      }).join('');
+      wrap.innerHTML = `<span>የቅርብ ጥሪዎች፦</span>${chips}`;
+    }
+
+    function renderLogs() {
+      const box = document.getElementById('logsList');
+      if (gameLogs.length === 0) {
+        box.innerHTML = '<div class="log-item">እስካሁን የተመዘገበ ጨዋታ የለም።</div>';
+        return;
+      }
+      box.innerHTML = gameLogs
+        .map(item => `<div class="log-item">${item}</div>`)
+        .join('');
+    }
+
+    function recordRound() {
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const winners = cards
+        .filter(c => checkWin(c) !== '')
+        .map(c => `#${c.id}`);
+      const winText = winners.length ? `አሸናፊ፦ ${winners.join(', ')}` : 'አሸናፊ አልተመዘገበም';
+      gameLogs.unshift(`[${now}] ${called.length}/75 ጥሪ | ${cards.length} ካርድ | ${winText}`);
+      gameLogs = gameLogs.slice(0, 15);
+      renderLogs();
+      saveState();
+    }
+
+    function clearLogs() {
+      gameLogs = [];
+      renderLogs();
+      saveState();
+    }
+
+    function createCard(id) {
+      const colNums = colsMeta.map(m => {
+        const nums = [];
+        for (let n = m.min; n <= m.max; n++) nums.push(n);
+        return shuffle(nums).slice(0, 5);
+      });
+
+      const grid = [];
+      const marks = [];
+      for (let r = 0; r < 5; r++) {
+        const rowVals = [];
+        const rowMarks = [];
+        for (let c = 0; c < 5; c++) {
+          if (r === 2 && c === 2) {
+            rowVals.push('FREE');
+            rowMarks.push(true);
+          } else {
+            rowVals.push(colNums[c][r]);
+            rowMarks.push(false);
+          }
+        }
+        grid.push(rowVals);
+        marks.push(rowMarks);
+      }
+      return { id, grid, marks, message: '' };
+    }
+
+    function generateCards(count) {
+      const list = [];
+      for (let i = 0; i < count; i++) {
+        list.push(createCard(101 + i));
+      }
+      return list;
+    }
+
+    function resetCardMarksKeepGrid() {
+      cards = cards.map(card => {
+        const freshMarks = card.grid.map((row, r) =>
+          row.map((val, c) => (r === 2 && c === 2) || val === 'FREE')
+        );
+        return { ...card, marks: freshMarks, message: '' };
+      });
+    }
+
+    function applyCardCount() {
+      const input = document.getElementById('cardCountInput');
+      let val = parseInt(input.value, 10);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > MAX_CARDS) val = MAX_CARDS;
+      input.value = val;
+      cardCount = val;
+      cards = generateCards(cardCount);
+      displayLimit = visibleStep;
+      document.getElementById('cardsTitle').textContent = `የጨዋታ ካርዶች (${cardCount})`;
+      updateMatchSummary();
+      renderCards();
+      saveState();
+    }
+
+    function applyVisibleLimit() {
+      const input = document.getElementById('visibleLimitInput');
+      let val = parseInt(input.value, 10);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > 500) val = 500;
+      input.value = val;
+      visibleStep = val;
+      displayLimit = val;
+      renderCards();
+      saveState();
+    }
+
+    function resetLimitAndRender() {
+      displayLimit = visibleStep;
+      renderCards();
+    }
+
+    function showMoreCards() {
+      displayLimit += visibleStep;
+      renderCards();
+    }
+
+    function toggleOnlyMatching() {
+      onlyMatching = !onlyMatching;
+      document.getElementById('onlyMatchBtn').classList.toggle('active-filter', onlyMatching);
+      displayLimit = visibleStep;
+      renderCards();
+    }
+
+    function clearFilters() {
+      document.getElementById('cardSearchInput').value = '';
+      onlyMatching = false;
+      document.getElementById('onlyMatchBtn').classList.remove('active-filter');
+      displayLimit = visibleStep;
+      renderCards();
+    }
+
+    function drawNumber() {
+      if (pool.length === 0) return;
+      const num = pool.pop();
+      called.push(num);
+
+      updateCallerDisplay();
+      renderRecent();
+      renderMatrix();
+      updateMatchSummary();
+      renderCards();
+      playChime();
+      saveState();
+    }
+
+    function toggleMark(cardIdx, r, c) {
+      const card = cards[cardIdx];
+      const val = card.grid[r][c];
+      if (val === 'FREE') return;
+      if (!called.includes(val)) {
+        card.message = `ቁጥር ${val} ገና አልተጠራም!`;
+        renderCards();
+        return;
+      }
+      card.marks[r][c] = !card.marks[r][c];
+      card.message = '';
+      renderCards();
+      saveState();
+    }
+
+    function checkWin(card) {
+      const m = card.marks;
+      for (let i = 0; i < 5; i++) {
+        if (m[i].every(Boolean)) return 'መስመር (Row) ተሟልቷል!';
+        if ([0,1,2,3,4].every(r => m[r][i])) return 'ዓምድ (Column) ተሟልቷል!';
+      }
+      if ([0,1,2,3,4].every(i => m[i][i]) || [0,1,2,3,4].every(i => m[i][4 - i])) {
+        return 'ሰያፍ (Diagonal) ተሟልቷል!';
+      }
+      return '';
+    }
+
+    function verifyBingo(cardIdx) {
+      const card = cards[cardIdx];
+      const winText = checkWin(card);
+      card.message = winText ? `🎉 ቢንጎ! ${winText}` : 'ገና ቢንጎ አልተሟላም።';
+      renderCards();
+      saveState();
+    }
+
+    function renderCards() {
+      const wrap = document.getElementById('cardsGrid');
+      const infoEl = document.getElementById('viewInfo');
+      const rawQuery = document.getElementById('cardSearchInput').value.replace('#', '').trim();
+      const latestNum = getLatestNumber();
+
+      const filtered = cards
+        .map((card, cIdx) => ({ card, cIdx }))
+        .filter(({ card }) => {
+          if (rawQuery && !String(card.id).includes(rawQuery)) return false;
+          if (onlyMatching && !cardHasNumber(card, latestNum)) return false;
+          return true;
+        });
+
+      wrap.innerHTML = '';
+      if (filtered.length === 0) {
+        infoEl.innerHTML = '<span>0 ካርዶች ታይተዋል</span>';
+        wrap.innerHTML = `<div class="empty-note">የሚያሟላ ካርድ አልተገኘም።</div>`;
+        return;
+      }
+
+      const visibleSlice = filtered.slice(0, displayLimit);
+      const remaining = filtered.length - visibleSlice.length;
+
+      infoEl.innerHTML = `
+        <span>የሚታዩ ካርዶች፦ <strong>${visibleSlice.length}</strong> / ${filtered.length} (ጠቅላላ የተፈጠሩ፦ ${cards.length})</span>
+        ${
+          remaining > 0
+            ? `<button class="outline" style="padding: 6px 12px; font-size: 12px;" onclick="showMoreCards()">ተጨማሪ ${Math.min(visibleStep, remaining)} አሳይ (${remaining} ቀርቷል)</button>`
+            : ''
+        }
+      `;
+
+      visibleSlice.forEach(({ card, cIdx }) => {
+        const hasCurrent = cardHasNumber(card, latestNum);
+        const el = document.createElement('div');
+        el.className = hasCurrent ? 'bingo-card has-current' : 'bingo-card';
+
+        const matchTag = hasCurrent
+          ? `<span class="badge match-badge">አሁን የተጠራውን ይዟል</span>`
+          : '';
+
+        el.innerHTML = `
+          <div class="card-header">
+            <span>ካርድ${matchTag}</span>
+            <span class="badge">#${card.id}</span>
+          </div>
+        `;
+
+        const board = document.createElement('div');
+        board.className = 'board';
+
+        colsMeta.forEach(m => {
+          const h = document.createElement('div');
+          h.className = 'b-head';
+          h.textContent = m.letter;
+          board.appendChild(h);
+        });
+
+        for (let r = 0; r < 5; r++) {
+          for (let c = 0; c < 5; c++) {
+            const val = card.grid[r][c];
+            const cell = document.createElement('div');
+            cell.className = 'b-cell';
+            if (val === 'FREE') {
+              cell.textContent = 'FREE';
+              cell.classList.add('free');
+            } else {
+              cell.textContent = val;
+              if (val === latestNum) cell.classList.add('current-num');
+              if (card.marks[r][c]) cell.classList.add('marked');
+              cell.onclick = () => toggleMark(cIdx, r, c);
+            }
+            board.appendChild(cell);
+          }
+        }
+
+        const btn = document.createElement('button');
+        btn.className = 'green';
+        btn.style.marginTop = '12px';
+        btn.style.width = '100%';
+        btn.textContent = 'ቢንጎ አረጋግጥ';
+        btn.onclick = () => verifyBingo(cIdx);
+
+        const msg = document.createElement('div');
+        msg.className = 'msg';
+        msg.textContent = card.message;
+
+        el.appendChild(board);
+        el.appendChild(btn);
+        el.appendChild(msg);
+        wrap.appendChild(el);
+      });
+    }
+
+    function newRoundKeepCards() {
+      pool = shuffle(Array.from({ length: 75 }, (_, i) => i + 1));
+      called = [];
+      resetCardMarksKeepGrid();
+      refreshAllUI();
+      saveState();
+    }
+
+    function regenerateAll() {
+      pool = shuffle(Array.from({ length: 75 }, (_, i) => i + 1));
+      called = [];
+      cards = generateCards(cardCount);
+      displayLimit = visibleStep;
+      refreshAllUI();
+      saveState();
+    }
+
+    function refreshAllUI() {
+      document.getElementById('cardsTitle').textContent = `የጨዋታ ካርዶች (${cards.length})`;
+      updateCallerDisplay();
+      renderRecent();
+      renderMatrix();
+      updateMatchSummary();
+      renderLogs();
+      renderCards();
+    }
+
+    function initAppAfterAuth() {
+      if (!loadState()) {
+        pool = shuffle(Array.from({ length: 75 }, (_, i) => i + 1));
+        called = [];
+        cards = generateCards(cardCount);
+        saveState();
+      }
+      refreshAllUI();
+    }
+
+    setupPwaMeta();
+    if (syncAuthUI()) {
+      initAppAfterAuth();
+    }
+  </script>
+</body>
+</html>
